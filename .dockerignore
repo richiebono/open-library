@@ -1,0 +1,60 @@
+# Git
+.git
+.gitignore
+.gitattributes
+.github/
+
+# .NET Core
+*.swp
+*.~*
+*.dbmdl
+*.dbproj.schemaview
+*.jfm
+*.pfx
+*.publishsettings
+node_modules/
+orleans.codegen.cs
+bin/
+obj/
+.vs/
+.vscode/
+_ReSharper.*
+ReSharper*/
+*.resharper
+*.suo
+*.sln.docstates
+*.user
+*.userosscache
+*.userprefs
+project.lock.json
+artifacts/
+
+# Don't ignore Properties directory (contains launchSettings.json)
+!**/Properties/
+
+# Don't ignore wwwroot (static files directory)
+!**/wwwroot/
+**/wwwroot/node_modules/
+
+# Visual Studio for Mac
+.idea/
+*.sln.iml
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.DS_Store
+
+# Documentation
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+documentation/
+
+# Backup files
+**/*.bak
+**/*.tmp
+src/backup/

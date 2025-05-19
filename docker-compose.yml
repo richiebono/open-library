@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  blazor-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: launchq-takehome-blazor
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+      - ASPNETCORE_URLS=http://+:80
+      - ApiSettings__OpenLibrary__BaseUrl=https://openlibrary.org
+    volumes:
+      - blazor-app-data:/app/data
+    networks:
+      - launchq-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/diagnostics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  launchq-network:
+    driver: bridge
+
+volumes:
+  blazor-app-data:
+

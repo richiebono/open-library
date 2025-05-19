@@ -1,0 +1,32 @@
+@using LaunchQ.TakeHomeProject.Domain.Models
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Books != null)
+            {
+                @foreach (var book in Books)
+                {
+                    <tr>
+                        <td>
+                            <a href="/Books/@book.GetFormattedKey()">
+                                <h5>@book.Title</h5>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/Books/@book.GetFormattedKey()" class="btn btn-primary btn-sm">
+                                View Details
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

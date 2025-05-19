@@ -1,0 +1,80 @@
+@page "/Books"
+@using LaunchQ.TakeHomeProject.Domain.Models
+@using LaunchQ.TakeHomeProject.Domain.Interfaces.Services
+@using LaunchQ.TakeHomeProject.Presentation.ViewModels
+@using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.Pagination
+@using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.AuthorCard
+@using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.BookTable
+
+<div class="container mt-4">
+    <h1 class="mb-4">@(ViewModel.Author?.Name ?? "Loading...")</h1>
+    
+    @if (ViewModel.Loading)
+    {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else if (ViewModel.Error != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewModel.Error
+        </div>
+    }
+    else if (ViewModel.Author == null)
+    {
+        <div class="alert alert-info" role="alert">
+            Author not found. Please try again.
+        </div>
+    }
+    else
+    {
+        <div class="row mb-4">
+            <div class="col-md-3">
+                @if (ViewModel.Author!.Photos != null && ViewModel.Author.Photos.ContainsKey("M"))
+                {
+                    <img src="@ViewModel.Author.Photos["L"]" alt="@ViewModel.Author.Name" class="img-fluid rounded shadow mb-3"  />
+                }
+            </div>
+            <div class="col-md-9">
+                <AuthorCard Author="@ViewModel.Author" />
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">Books by @ViewModel.Author!.Name</h2>
+            </div>
+            <div class="card-body">
+                @if (ViewModel.PagedBooks == null || !ViewModel.PagedBooks.Any())
+                {
+                    <div class="alert alert-info" role="alert">
+                        No books with complete information found for this author.
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted mb-3">
+                        Found @ViewModel.TotalBooks books with complete information
+                    </p>
+                    <BookTable Books="@ViewModel.PagedBooks" />
+                    
+                    <!-- Pagination Component -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <Pagination 
+                                Books="@ViewModel.PagedBooks"
+                                TotalBooks="@ViewModel.TotalBooks"
+                                CurrentPage="@ViewModel.CurrentPage"
+                                ItemsPerPage="@ViewModel.ItemsPerPage"
+                                OnPageChangedCallback="@OnPageChanged"
+                                OnItemsPerPageChangedCallback="@OnItemsPerPageChanged" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
