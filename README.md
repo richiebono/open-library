@@ -30,16 +30,74 @@ This project is an implementation of a technical challenge to explore the OpenLi
 
 ## Project Structure
 
-- **Components/Pages**
-  - `Books.razor`: Author's books listing page with pagination
-  - `BookDetail.razor`: Book details page
+This project follows Clean Architecture principles, with a clear separation of concerns across multiple layers:
+
+### Domain Layer (`/src/Domain/`)
+The core business logic and entities, independent of external frameworks.
 
 - **Models**
-  - `Author.cs`: Data model for author and API response
-  - `Book.cs`: Data model for book and API response
+  - `Author.cs`: Core domain entity for author information
+  - `Book.cs`: Core domain entity for book details
+  - `BookSummary.cs`: Simplified representation of a book
+  - `Description.cs`: Domain model for content descriptions
+
+- **Interfaces**
+  - Various interfaces defining the contracts between layers
+
+### Application Layer (`/src/Application/`)
+Business rules and use cases that orchestrate the flow of data.
+
+- **DTOs (Data Transfer Objects)**
+  - `AuthorInfoDto.cs`, `BookResponseDto.cs`, etc.: Objects for data exchange between layers
+  
+- **Mappers**
+  - `AuthorMapper.cs`: Transforms domain Author entities to/from DTOs
+  - `BookMapper.cs`: Transforms domain Book entities to/from DTOs
+  - `WorksMapper.cs`: Handles mapping of book collections
+  - `IMapper.cs`: Common interface for all mappers
 
 - **Services**
-  - `OpenLibraryService.cs`: Service for OpenLibrary API communication
+  - `AuthorService.cs`: Business logic for author-related operations
+  - `BookService.cs`: Business logic for book-related operations
+
+### Infrastructure Layer (`/src/Infrastructure/`)
+External concerns implementation like data access and API communications.
+
+- **Adapters**
+  - `OpenLibraryAuthorAdapter.cs`: Adapter for OpenLibrary author API
+  - `OpenLibraryBookAdapter.cs`: Adapter for OpenLibrary book API
+  - `DescriptionJsonConverter.cs`: JSON conversion for complex description types
+
+- **Configuration**
+  - `ApiSettings.cs`: Configuration for external API connections
+
+### Presentation Layer (`/src/Presentation/`)
+User interface and external API controllers.
+
+- **Blazor**
+  - `Components/Pages`: Razor components for UI
+    - `Books.razor`: Author's books listing page with pagination
+    - `BookDetail.razor`: Book details page with detailed information
+  - `ViewModels`: View models following MVVM pattern
+  - `Shared`: Reusable UI components and layouts
+
+### Tests
+
+- **UnitTests**
+  - Tests for individual components and business logic in isolation
+  
+- **IntegrationTests**
+  - Tests for interactions between components and layers
+
+### Infrastructure as Code
+
+- **Terraform** (`/infra/terraform/`)
+  - `main.tf`: Main infrastructure definition
+  - `variables.tf`: Infrastructure parameters
+  - `outputs.tf`: Output values from the infrastructure
+
+- **Scripts** (`/infra/`)
+  - Setup scripts for Azure resources and CI/CD configuration
 
 ## OpenLibrary API
 
