@@ -1,5 +1,13 @@
 name: CI/CD Pipeline
 
+# This pipeline demonstrates a complete CI/CD workflow using GitHub Actions, SonarQube, and Azure.
+# Note: To fully run this pipeline, you would need to configure the following:
+#  - SonarQube account and token (SONAR_TOKEN)
+#  - Azure subscription and credentials (AZURE_CREDENTIALS, AZURE_SUBSCRIPTION_ID)
+#  - Azure Container Registry credentials (ACR_USERNAME, ACR_PASSWORD)
+#  - Terraform state storage configuration (TF_STATE_* secrets)
+# Since this is a demonstration project, some steps may not complete without these configurations.
+
 on:
   push:
     branches: [ main, master, develop ]

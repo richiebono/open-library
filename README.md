@@ -110,6 +110,8 @@ The pipeline runs automatically when:
 - Pull requests are created for the `main` or `master` branches
 - It is triggered manually through the GitHub Actions UI
 
+> **Note on Pipeline Implementation:** The full CI/CD pipeline requires SonarQube tokens and Azure subscription information to complete all steps. Since this is a demonstration project, these elements are configured but not fully implemented as they would require paid accounts for both SonarQube and Azure services. In a production scenario, you would need to set up all the required secrets in your GitHub repository settings to enable the complete pipeline functionality.
+
 ## Azure Architecture
 
 The application is deployed in Azure Container Apps, with the following infrastructure:
