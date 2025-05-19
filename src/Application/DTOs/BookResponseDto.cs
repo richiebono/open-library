@@ -35,11 +35,9 @@ namespace LaunchQ.TakeHomeProject.Application.DTOs
             if (Covers != null && Covers.Any())
             {
                 book.Covers = new Dictionary<string, string>();
-                // Obtém o primeiro ID de capa disponível
                 int coverId = Covers.FirstOrDefault();
                 if (coverId > 0)
                 {
-                    // Para cada tamanho de imagem, adiciona a URL correspondente ao dicionário
                     book.Covers.Add("S", $"https://covers.openlibrary.org/b/id/{coverId}-S.jpg");
                     book.Covers.Add("M", $"https://covers.openlibrary.org/b/id/{coverId}-M.jpg");
                     book.Covers.Add("L", $"https://covers.openlibrary.org/b/id/{coverId}-L.jpg");

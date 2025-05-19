@@ -76,7 +76,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Domain.Models
 
             // Act
             var smallUrl = book.GetCoverImageUrl("S");
-            var mediumUrl = book.GetCoverImageUrl(); // Default is "M"
+            var mediumUrl = book.GetCoverImageUrl();
             var largeUrl = book.GetCoverImageUrl("L");
 
             // Assert

@@ -107,9 +107,6 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Infrastructure.Adapters
             _bookPortMock.Verify(x => x.GetBooksByAuthorAsync(It.IsAny<string>()), Times.Once);
         }
 
-        // Test for author works retrieval is now handled by BookPort tests, 
-        // as OpenLibraryAuthorAdapter delegates to BookPort for book fetching
-
         [Fact]
         public async Task GetAuthorByKeyAsync_HttpRequestException_ReturnsNull()
         {
@@ -130,13 +127,5 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Infrastructure.Adapters
             // Assert
             result.Should().BeNull();
         }
-        
-        // Test for GetPagedBooks removed as the method has been removed from OpenLibraryAuthorAdapter
-        
-        // GetPagedBooks method has been removed from the OpenLibraryAuthorAdapter
-        
-        // Test for GetTotalPages removed as the method has been removed from OpenLibraryAuthorAdapter
-        
-        // Test for GetTotalPages with null books removed as the method has been removed from OpenLibraryAuthorAdapter
     }
 }

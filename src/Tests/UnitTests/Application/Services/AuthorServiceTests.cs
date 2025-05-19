@@ -75,7 +75,5 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Services
             result.Should().BeNull();
             _authorPortMock.Verify(x => x.GetAuthorByKeyAsync(authorKey), Times.Once);
         }
-        
-        // Removed tests for GetPagedBooks and GetTotalPages as they were removed from AuthorService
     }
 }

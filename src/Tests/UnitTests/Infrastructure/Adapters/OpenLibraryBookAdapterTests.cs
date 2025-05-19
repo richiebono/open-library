@@ -180,7 +180,6 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Infrastructure.Adapters
                     ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(response);
                 
-            // Set up the works mapper mock to return expected books
             var expectedBooks = new List<BookSummary>
             {
                 new BookSummary { Key = "OL1W", Title = "Book 1" },

@@ -31,8 +31,6 @@ namespace LaunchQ.TakeHomeProject.Domain.Models
         /// </summary>
         public bool HasCompleteDetails()
         {
-            // A book has complete details if it has a non-empty title and at least
-            // one of the two pieces of information: description or cover
             return !string.IsNullOrEmpty(Title) && (HasDescription || HasCovers);
         }
     }

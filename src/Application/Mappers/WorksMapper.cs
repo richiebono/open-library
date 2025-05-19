@@ -28,8 +28,6 @@ namespace LaunchQ.TakeHomeProject.Application.Mappers
         {
             if (source == null || source.Entries == null)
                 return destination;
-                
-        // Helper methods moved to class scope
             
             var result = source.Entries.Select(entry => new BookSummary
             {
@@ -47,9 +45,7 @@ namespace LaunchQ.TakeHomeProject.Application.Mappers
 
         }
         
-        // Helper methods for extracting and transforming data
             
-        // Extract key from path like "/works/OL123W" to "OL123W"
         private string ExtractKeyFromPath(string path)
         {
             if (string.IsNullOrEmpty(path)) return string.Empty;
@@ -58,7 +54,6 @@ namespace LaunchQ.TakeHomeProject.Application.Mappers
             return match.Success ? match.Groups[1].Value : path;
         }
         
-        // Generate cover URLs based on ID - no longer used in this context
         private Dictionary<string, string> GenerateCoverUrls(int? coverId)
         {
             if (coverId == null) return new Dictionary<string, string>();

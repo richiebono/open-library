@@ -77,8 +77,6 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Domain.Models
             author.Key.Should().Be("OL1234567A");
             author.Name.Should().Be("John Doe");
             
-            // Depending on how the Author class is implemented, the following could vary:
-            // Collections should be null unless initialized
             author.Works.Should().BeNull();
             author.Alternate_names.Should().BeNull();
             author.Photos.Should().BeNull();

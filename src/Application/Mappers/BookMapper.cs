@@ -4,7 +4,7 @@ using LaunchQ.TakeHomeProject.Domain.Models;
 namespace LaunchQ.TakeHomeProject.Application.Mappers
 {
     /// <summary>
-    /// Implementação do mapeamento entre BookResponseDto e Book
+    /// Implementing the mapping between BookResponseDto and Book
     /// </summary>
     public class BookMapper : IMapper<BookResponseDto, Book>
     {
@@ -46,7 +46,7 @@ namespace LaunchQ.TakeHomeProject.Application.Mappers
         }
     
         /// <summary>
-        /// Converte uma lista de IDs de capas para um dicionário com URLs completas das imagens
+        /// Converts a list of cover IDs to a dictionary with full image URLs
         /// </summary>
         private Dictionary<string, string> ConvertCoversToDictionary(List<int> covers)
         {
@@ -55,11 +55,9 @@ namespace LaunchQ.TakeHomeProject.Application.Mappers
             {
                 var sizes = new[] { "S", "M", "L" };
                 
-                // Obtém o primeiro ID de capa disponível
                 int coverId = covers.FirstOrDefault();
                 if (coverId > 0)
                 {
-                    // Para cada tamanho de imagem, adiciona a URL correspondente ao dicionário
                     foreach (var size in sizes)
                     {
                         result[size] = $"https://covers.openlibrary.org/b/id/{coverId}-{size}.jpg";

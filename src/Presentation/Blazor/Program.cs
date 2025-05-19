@@ -45,18 +45,13 @@ builder.Services.AddScoped<Assets>();
 
 var app = builder.Build();
 
-
-
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
     
-    // Check if HTTPS should be used (default to true if not specified)
     bool useHttps = !builder.Configuration.GetValue<bool>("UseHttps", false);
     if (useHttps)
     {
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
         app.UseHsts();
         app.UseHttpsRedirection();
     }
@@ -66,8 +61,6 @@ else
     app.UseHttpsRedirection();
 }
 
-// Configure static files with enhanced settings - should be before UseAntiforgery
-// This ensures CSS files are properly served
 app.MapStaticAssets();
 
 app.UseAntiforgery();

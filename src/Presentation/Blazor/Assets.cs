@@ -9,11 +9,8 @@ public static class AssetsExtensions
 {
     public static void MapStaticAssets(this WebApplication app)
     {
-        // Configure static files with default options
-        // This will serve files from wwwroot by default
         app.UseStaticFiles();
 
-        // Map assets directory for additional files
         app.MapWhen(
             ctx => ctx.Request.Path.StartsWithSegments("/_assets"),
             app => app.UseStaticFiles(new StaticFileOptions { RequestPath = string.Empty }));

@@ -1,25 +1,25 @@
 namespace LaunchQ.TakeHomeProject.Application.Mappers
 {
     /// <summary>
-    /// Interface para o mapeamento entre DTOs e entidades de domínio
+    /// Interface for mapping between DTOs and domain entities
     /// </summary>
-    /// <typeparam name="TSource">Tipo de origem</typeparam>
-    /// <typeparam name="TDestination">Tipo de destino</typeparam>
+    /// <typeparam name="TSource">Source type</typeparam>
+    /// <typeparam name="TDestination">Destination type</typeparam>
     public interface IMapper<TSource, TDestination>
     {
         /// <summary>
-        /// Mapeia um objeto de origem para um objeto de destino
+        /// Maps a source object to a destination object
         /// </summary>
-        /// <param name="source">Objeto de origem</param>
-        /// <returns>Objeto de destino</returns>
+        /// <param name="source">Source object</param>
+        /// <returns>Destination object</returns>
         TDestination Map(TSource source);
         
         /// <summary>
-        /// Mapeia um objeto de origem para um objeto de destino existente
+        /// Maps a source object to an existing destination object
         /// </summary>
-        /// <param name="source">Objeto de origem</param>
-        /// <param name="destination">Objeto de destino existente</param>
-        /// <returns>Objeto de destino atualizado</returns>
+        /// <param name="source">Source object</param>
+        /// <param name="destination">Existing destination object</param>
+        /// <returns>Updated destination object</returns>
         TDestination Map(TSource source, TDestination destination);
     }
 }

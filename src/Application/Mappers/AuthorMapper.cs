@@ -54,7 +54,7 @@ namespace LaunchQ.TakeHomeProject.Application.Mappers
         }
     
         /// <summary>
-        /// Converte uma lista de IDs de fotos para um dicionário com URLs completas das imagens
+        /// Converts a list of photo IDs to a dictionary with full image URLs
         /// </summary>
         private Dictionary<string, string> ConvertPhotosToDictionary(List<int> photos)
         {
@@ -63,11 +63,9 @@ namespace LaunchQ.TakeHomeProject.Application.Mappers
             {
                 var sizes = new[] { "S", "M", "L" };
                 
-                // Obtém o primeiro ID de foto disponível
                 int photoId = photos.FirstOrDefault();
                 if (photoId > 0)
                 {
-                    // Para cada tamanho de imagem, adiciona a URL correspondente ao dicionário
                     foreach (var size in sizes)
                     {
                         result[size] = $"https://covers.openlibrary.org/a/id/{photoId}-{size}.jpg";
