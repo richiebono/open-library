@@ -1,10 +1,26 @@
 @page "/"
-@using Microsoft.AspNetCore.Components
-@inject NavigationManager NavigationManager
 
-@code {
-    protected override void OnInitialized()
-    {
-        NavigationManager.NavigateTo("/Books");
-    }
-}
+<PageTitle>Home</PageTitle>
+
+<h1>Hello</h1>
+
+<p>Welcome to the LaunchQ take home assignment!</p>
+
+<p>Please complete the following:</p>
+
+<ul>
+    
+    <li>Pick your favorite author and use the OpenLibrary API at <a href="https://openlibrary.org/dev/docs/api/authors">https://openlibrary.org/dev/docs/api/authors</a></li>
+    
+    <li>Create a page at <a href="/Books">/Books</a> that shows a list of all the books they've written</li>
+    
+    <li>Make the book title a link that goes to a second page (for example <a href="/Books/OL23919A">/Books/OL23919A</a>) showing the details of that book</li>
+    
+</ul>
+
+<p>We aren't looking for perfection, but this should show an example of your coding style. We're looking for clean code that follows the standard best practices.</p>
+
+<p>An example of how it might look finished:</p>
+
+<img src="/images/ScreenShot-Books.png" />
+<img src="/images/ScreenShot-BookDetail.png" />
