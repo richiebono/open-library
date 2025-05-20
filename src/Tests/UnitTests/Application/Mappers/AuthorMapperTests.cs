@@ -20,7 +20,9 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Mappers
         public void Map_WithNullSource_ShouldReturnEmptyAuthor()
         {
             // Act
-            var result = _authorMapper.Map((AuthorResponseDto)null);
+            #pragma warning disable CS8604 // Possible null reference argument
+            var result = _authorMapper.Map(null!);
+            #pragma warning restore CS8604 // Possible null reference argument
 
             // Assert
             result.Should().NotBeNull();
@@ -143,11 +145,11 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Mappers
             var dto = new AuthorResponseDto
             {
                 Key = "OL1234567A",
-                Name = null,
-                Personal_name = null,
-                Birth_date = null,
-                Death_date = null,
-                Bio = null
+                Name = null!,
+                Personal_name = null!,
+                Birth_date = null!,
+                Death_date = null!,
+                Bio = null!
             };
 
             // Act

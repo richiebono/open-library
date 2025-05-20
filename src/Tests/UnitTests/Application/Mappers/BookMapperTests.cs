@@ -21,7 +21,9 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Mappers
         public void Map_WithNullSource_ShouldReturnEmptyBook()
         {
             // Act
-            var result = _bookMapper.Map((BookResponseDto)null);
+            #pragma warning disable CS8604 // Possible null reference argument
+            var result = _bookMapper.Map(null!);
+            #pragma warning restore CS8604 // Possible null reference argument
 
             // Assert
             result.Should().NotBeNull();

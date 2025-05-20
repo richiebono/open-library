@@ -42,5 +42,11 @@ namespace LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Pages.Books
             await ViewModel.OnItemsPerPageChanged(itemsPerPage);
             StateHasChanged();
         }
+        
+        private async Task HandleSearch(string searchText)
+        {
+            await ViewModel.OnSearchQueryChanged(searchText);
+            StateHasChanged();
+        }
     }
 }

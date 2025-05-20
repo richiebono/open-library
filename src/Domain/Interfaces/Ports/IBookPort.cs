@@ -18,8 +18,9 @@ namespace LaunchQ.TakeHomeProject.Domain.Interfaces.Ports
         /// <param name="authorKey">The author key</param>
         /// <param name="limit">The number of items per page</param>
         /// <param name="offset">The offset for pagination</param>
+        /// <param name="searchQuery">Optional search query to filter books by title</param>
         /// <returns>Paginated books and total count</returns>
-        Task<(List<BookSummary> Books, int TotalCount)> GetPaginatedBooksByAuthorAsync(string authorKey, int limit, int offset);
+        Task<(List<BookSummary> Books, int TotalCount)> GetPaginatedBooksByAuthorAsync(string authorKey, int limit, int offset, string? searchQuery = null);
         
         /// <summary>
         /// Gets a book by its key

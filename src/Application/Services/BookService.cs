@@ -30,7 +30,7 @@ namespace LaunchQ.TakeHomeProject.Application.Services
         return books ?? new List<BookSummary>();
     }
         
-        public async Task<(List<BookSummary> Books, int TotalCount)> GetPaginatedBooksByAuthorAsync(string authorKey, int page, int itemsPerPage)
+        public async Task<(List<BookSummary> Books, int TotalCount)> GetPaginatedBooksByAuthorAsync(string authorKey, int page, int itemsPerPage, string? searchQuery = null)
         {
             if (string.IsNullOrWhiteSpace(authorKey))
                 return (new List<BookSummary>(), 0);
@@ -38,7 +38,7 @@ namespace LaunchQ.TakeHomeProject.Application.Services
             // Convert 1-based page to 0-based offset
             int offset = (page - 1) * itemsPerPage;
             
-            return await _bookPort.GetPaginatedBooksByAuthorAsync(authorKey, itemsPerPage, offset);
+            return await _bookPort.GetPaginatedBooksByAuthorAsync(authorKey, itemsPerPage, offset, searchQuery);
         }
     }
 }

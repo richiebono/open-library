@@ -81,7 +81,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Infrastructure.Adapters
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
                     ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get && 
-                                                        req.RequestUri.ToString().EndsWith($"/authors/{authorKey}.json")),
+                                                        req.RequestUri!.ToString().EndsWith($"/authors/{authorKey}.json")),
                     ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(response);
                 

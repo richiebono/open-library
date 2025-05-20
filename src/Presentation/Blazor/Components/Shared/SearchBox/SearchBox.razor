@@ -1,0 +1,15 @@
+@using Microsoft.AspNetCore.Components.Web
+
+<div class="input-group">
+    <input type="text" class="form-control" placeholder="@Placeholder"
+           @bind="searchText" @bind:event="oninput" @onkeyup="HandleKeyPress" />
+    <button class="btn btn-outline-primary" type="button" @onclick="HandleSearch">
+        <i class="bi bi-search"></i> @SearchButtonText
+    </button>
+    @if (ShowClearButton && !string.IsNullOrWhiteSpace(searchText))
+    {
+        <button class="btn btn-outline-secondary" type="button" @onclick="HandleClear">
+            <i class="bi bi-x-circle"></i> @ClearButtonText
+        </button>
+    }
+</div>

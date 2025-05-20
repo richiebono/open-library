@@ -52,7 +52,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Services
 
             _bookPortMock
                 .Setup(x => x.GetBookByKeyAsync(bookKey))
-                .ReturnsAsync((Book)null);
+                .ReturnsAsync((Book?)null);
 
             // Act
             var result = await _bookService.GetBookByKeyAsync(bookKey);
@@ -94,7 +94,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Services
 
             _bookPortMock
                 .Setup(x => x.GetBooksByAuthorAsync(authorKey))
-                .ReturnsAsync((List<BookSummary>)null);
+                .ReturnsAsync((List<BookSummary>)null!);
 
             // Act
             var result = await _bookService.GetBooksByAuthorAsync(authorKey);
@@ -128,10 +128,12 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Services
         public async Task GetBooksByAuthorAsync_WithInvalidKey_ShouldHandleGracefully()
         {
             // Arrange
-            string authorKey = null;
+            string? authorKey = null;
 
             // Act
+            #pragma warning disable CS8604 // Possible null reference argument
             var result = await _bookService.GetBooksByAuthorAsync(authorKey);
+            #pragma warning restore CS8604 // Possible null reference argument
 
             // Assert
             result.Should().NotBeNull();
@@ -156,8 +158,8 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Services
             int expectedTotalCount = 25;
 
             _bookPortMock
-                .Setup(x => x.GetPaginatedBooksByAuthorAsync(authorKey, itemsPerPage, offset))
-                .ReturnsAsync((expectedBooks, expectedTotalCount));
+                .Setup(x => x.GetPaginatedBooksByAuthorAsync(authorKey, itemsPerPage, offset, It.IsAny<string>()))
+                .ReturnsAsync(() => (expectedBooks, expectedTotalCount));
 
             // Act
             var result = await _bookService.GetPaginatedBooksByAuthorAsync(authorKey, page, itemsPerPage);
@@ -167,26 +169,60 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Services
             result.Books.Should().BeEquivalentTo(expectedBooks);
             result.TotalCount.Should().Be(expectedTotalCount);
             _bookPortMock.Verify(x => x.GetPaginatedBooksByAuthorAsync(
-                authorKey, itemsPerPage, offset), Times.Once);
+                authorKey, itemsPerPage, offset, It.IsAny<string>()), Times.Once);
         }
         
         [Fact]
         public async Task GetPaginatedBooksByAuthorAsync_WithInvalidKey_ShouldReturnEmpty()
         {
             // Arrange
-            string authorKey = null;
+            string? authorKey = null;
             var page = 1;
             var itemsPerPage = 10;
 
             // Act
+            #pragma warning disable CS8604 // Possible null reference argument
             var result = await _bookService.GetPaginatedBooksByAuthorAsync(authorKey, page, itemsPerPage);
+            #pragma warning restore CS8604 // Possible null reference argument
 
             // Assert
             result.Books.Should().NotBeNull();
             result.Books.Should().BeEmpty();
             result.TotalCount.Should().Be(0);
             _bookPortMock.Verify(x => x.GetPaginatedBooksByAuthorAsync(
-                It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>()), Times.Never);
+                It.IsAny<string>(), It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task GetPaginatedBooksByAuthorAsync_WithSearchQuery_ShouldPassQueryToPort()
+        {
+            // Arrange
+            var authorKey = "OL1234567A";
+            var page = 1;
+            var itemsPerPage = 10;
+            var offset = 0;
+            var searchQuery = "Fantasy";
+            
+            var expectedBooks = new List<BookSummary>
+            {
+                new BookSummary { Key = "OL1W", Title = "Fantasy Book 1" },
+                new BookSummary { Key = "OL2W", Title = "Fantasy Book 2" }
+            };
+            int expectedTotalCount = 2;
+
+            _bookPortMock
+                .Setup(x => x.GetPaginatedBooksByAuthorAsync(authorKey, itemsPerPage, offset, searchQuery))
+                .ReturnsAsync(() => (expectedBooks, expectedTotalCount));
+
+            // Act
+            var result = await _bookService.GetPaginatedBooksByAuthorAsync(authorKey, page, itemsPerPage, searchQuery);
+
+            // Assert
+            result.Books.Should().NotBeNull();
+            result.Books.Should().BeEquivalentTo(expectedBooks);
+            result.TotalCount.Should().Be(expectedTotalCount);
+            _bookPortMock.Verify(x => x.GetPaginatedBooksByAuthorAsync(
+                authorKey, itemsPerPage, offset, searchQuery), Times.Once);
         }
     }
 }

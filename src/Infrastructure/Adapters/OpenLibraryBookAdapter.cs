@@ -106,7 +106,7 @@ namespace LaunchQ.TakeHomeProject.Infrastructure.Adapters
         }
         
         /// <inheritdoc />
-        public async Task<(List<BookSummary> Books, int TotalCount)> GetPaginatedBooksByAuthorAsync(string authorKey, int limit, int offset)
+        public async Task<(List<BookSummary> Books, int TotalCount)> GetPaginatedBooksByAuthorAsync(string authorKey, int limit, int offset, string? searchQuery = null)
         {
             try
             {
@@ -122,6 +122,13 @@ namespace LaunchQ.TakeHomeProject.Infrastructure.Adapters
                     
                 var books = _worksMapper.Map(response);
                 int totalCount = response.Size ?? 0;
+                
+                // Apply search filter if provided
+                if (!string.IsNullOrWhiteSpace(searchQuery))
+                {
+                    books = books.Where(b => b.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)).ToList();
+                    totalCount = books.Count; // Adjust total count based on filtered results
+                }
                 
                 return (books, totalCount);
             }

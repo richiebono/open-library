@@ -81,7 +81,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Infrastructure.Adapters
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
                     ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get && 
-                                                        req.RequestUri.ToString().EndsWith($"/works/{bookKey}.json")),
+                                                        req.RequestUri!.ToString().EndsWith($"/works/{bookKey}.json")),
                     ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(response);
                 
@@ -176,7 +176,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Infrastructure.Adapters
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
                     ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get && 
-                                                       req.RequestUri.ToString().Contains($"/authors/{authorKey}/works.json")),
+                                                       req.RequestUri!.ToString().Contains($"/authors/{authorKey}/works.json")),
                     ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(response);
                 
@@ -234,7 +234,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Infrastructure.Adapters
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
                     ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get && 
-                                                      req.RequestUri.ToString().Contains($"/authors/{authorKey}/works.json?limit={limit}&offset={offset}")),
+                                                      req.RequestUri!.ToString().Contains($"/authors/{authorKey}/works.json?limit={limit}&offset={offset}")),
                     ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(response);
                 
@@ -281,6 +281,67 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Infrastructure.Adapters
             result.Books.Should().NotBeNull();
             result.Books.Should().BeEmpty();
             result.TotalCount.Should().Be(0);
+        }
+        
+        [Fact]
+        public async Task GetPaginatedBooksByAuthorAsync_WithSearchQuery_FiltersBooksByTitle()
+        {
+            // Arrange
+            var authorKey = "OL1234567A";
+            var limit = 10;
+            var offset = 0;
+            var searchQuery = "Fantasy";
+            
+            var worksResponseDto = new WorksResponseDto
+            {
+                Size = 4,
+                Entries = new List<BookResponseDto>
+                {
+                    new BookResponseDto { Key = "OL1W", Title = "Fantasy Adventure" },
+                    new BookResponseDto { Key = "OL2W", Title = "Science Fiction" },
+                    new BookResponseDto { Key = "OL3W", Title = "Fantasy World" },
+                    new BookResponseDto { Key = "OL4W", Title = "Mystery Novel" }
+                }
+            };
+            
+            var responseJson = JsonSerializer.Serialize(worksResponseDto);
+            var response = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(responseJson)
+            };
+            
+            _handlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(req => req.Method == HttpMethod.Get && 
+                                                      req.RequestUri!.ToString().Contains($"/authors/{authorKey}/works.json?limit={limit}&offset={offset}")),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(response);
+                
+            var bookSummaries = new List<BookSummary>
+            {
+                new BookSummary { Key = "OL1W", Title = "Fantasy Adventure" },
+                new BookSummary { Key = "OL2W", Title = "Science Fiction" },
+                new BookSummary { Key = "OL3W", Title = "Fantasy World" },
+                new BookSummary { Key = "OL4W", Title = "Mystery Novel" }
+            };
+            
+            _worksMapperMock
+                .Setup(x => x.Map(It.IsAny<WorksResponseDto>()))
+                .Returns(bookSummaries);
+
+            // Act
+            var result = await _adapter.GetPaginatedBooksByAuthorAsync(authorKey, limit, offset, searchQuery);
+
+            // Assert
+            result.Books.Should().NotBeNull();
+            result.Books.Count.Should().Be(2);
+            result.TotalCount.Should().Be(2);
+            result.Books.Should().OnlyContain(b => b.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase));
+            
+            _worksMapperMock.Verify(x => x.Map(It.IsAny<WorksResponseDto>()), Times.Once);
         }
     }
 }

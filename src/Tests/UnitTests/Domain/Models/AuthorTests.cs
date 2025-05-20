@@ -67,20 +67,20 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Domain.Models
             {
                 Key = "OL1234567A",
                 Name = "John Doe",
-                Works = null,
-                Alternate_names = null,
-                Photos = null,
-                Books = null
+                Works = null!,
+                Alternate_names = null!,
+                Photos = null!,
+                Books = null!
             };
 
             // Assert
             author.Key.Should().Be("OL1234567A");
             author.Name.Should().Be("John Doe");
             
-            author.Works.Should().BeNull();
-            author.Alternate_names.Should().BeNull();
-            author.Photos.Should().BeNull();
-            author.Books.Should().BeNull();
+            (author.Works == null).Should().BeTrue();
+            (author.Alternate_names == null).Should().BeTrue();
+            (author.Photos == null).Should().BeTrue();
+            (author.Books == null).Should().BeTrue();
         }
         
         [Fact]

@@ -59,12 +59,20 @@ namespace LaunchQ.TakeHomeProject.Presentation.ViewModels
             }
         }
         
+        // Propriedade para armazenar a consulta de busca
+        public string SearchQuery { get; set; } = string.Empty;
+        
         private async Task LoadPaginatedBooksAsync()
         {
             if (string.IsNullOrEmpty(_currentAuthorKey))
                 return;
                 
-            var result = await _bookService.GetPaginatedBooksByAuthorAsync(_currentAuthorKey, CurrentPage, ItemsPerPage);
+            var result = await _bookService.GetPaginatedBooksByAuthorAsync(
+                _currentAuthorKey, 
+                CurrentPage, 
+                ItemsPerPage,
+                !string.IsNullOrWhiteSpace(SearchQuery) ? SearchQuery : null);
+                
             PagedBooks = result.Books;
             TotalBooks = result.TotalCount;
         }
@@ -79,6 +87,13 @@ namespace LaunchQ.TakeHomeProject.Presentation.ViewModels
         {
             ItemsPerPage = itemsPerPage;
             CurrentPage = 1;
+            await LoadPaginatedBooksAsync();
+        }
+        
+        public async Task OnSearchQueryChanged(string searchQuery)
+        {
+            SearchQuery = searchQuery;
+            CurrentPage = 1; // Resetar para a primeira página ao buscar
             await LoadPaginatedBooksAsync();
         }
     }

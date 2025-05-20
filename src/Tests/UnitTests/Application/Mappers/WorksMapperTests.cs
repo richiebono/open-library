@@ -20,7 +20,9 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Mappers
         public void Map_WithNullSource_ShouldReturnEmptyList()
         {
             // Act
-            var result = _worksMapper.Map((WorksResponseDto)null);
+            #pragma warning disable CS8604 // Possible null reference argument
+            var result = _worksMapper.Map(null!);
+            #pragma warning restore CS8604 // Possible null reference argument
 
             // Assert
             result.Should().NotBeNull();
@@ -90,7 +92,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Mappers
             var dto = new WorksResponseDto
             {
                 Size = 0,
-                Entries = null
+                Entries = null!
             };
             
             // Act
@@ -110,7 +112,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Mappers
                 Size = 1,
                 Entries = new List<BookResponseDto>
                 {
-                    new BookResponseDto { Key = "/works/OL1W", Title = null }
+                    new BookResponseDto { Key = "/works/OL1W", Title = null! }
                 }
             };
             

@@ -48,10 +48,12 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Services
         public async Task GetAuthorByKeyAsync_WithNullKey_ShouldReturnNull()
         {
             // Arrange
-            string authorKey = null;
+            string? authorKey = null;
 
             // Act
+            #pragma warning disable CS8604 // Possible null reference argument
             var result = await _authorService.GetAuthorByKeyAsync(authorKey);
+            #pragma warning restore CS8604 // Possible null reference argument
 
             // Assert
             result.Should().BeNull();
@@ -66,7 +68,7 @@ namespace LaunchQ.TakeHomeProject.UnitTests.Application.Services
 
             _authorPortMock
                 .Setup(x => x.GetAuthorByKeyAsync(authorKey))
-                .ReturnsAsync((Author)null);
+                .ReturnsAsync((Author?)null);
 
             // Act
             var result = await _authorService.GetAuthorByKeyAsync(authorKey);

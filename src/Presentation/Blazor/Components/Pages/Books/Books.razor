@@ -5,6 +5,7 @@
 @using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.Pagination
 @using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.AuthorCard
 @using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.BookTable
+@using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.SearchBox
 
 <div class="container mt-4">
     <h1 class="mb-4">@(ViewModel.Author?.Name ?? "Loading...")</h1>
@@ -47,7 +48,18 @@
             <div class="card-header bg-primary text-white">
                 <h2 class="mb-0">Books by @ViewModel.Author!.Name</h2>
             </div>
-            <div class="card-body">
+            <div class="card-body">                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <SearchBox 
+                            Placeholder="Search for books..." 
+                            SearchButtonText="Search"
+                            ClearButtonText="Clear"
+                            InitialSearchText="@ViewModel.SearchQuery"
+                            OnSearch="@HandleSearch" />
+                    </div>
+                </div>
+
                 @if (ViewModel.PagedBooks == null || !ViewModel.PagedBooks.Any())
                 {
                     <div class="alert alert-info" role="alert">
@@ -58,6 +70,10 @@
                 {
                     <p class="text-muted mb-3">
                         Found @ViewModel.TotalBooks books with complete information
+                        @if (!string.IsNullOrWhiteSpace(ViewModel.SearchQuery))
+                        {
+                            <span> matching "@ViewModel.SearchQuery"</span>
+                        }
                     </p>
                     <BookTable Books="@ViewModel.PagedBooks" />
                     

@@ -27,7 +27,8 @@ namespace LaunchQ.TakeHomeProject.Domain.Interfaces.Services
         /// <param name="authorKey">Author key</param>
         /// <param name="page">Current page (1-based)</param>
         /// <param name="itemsPerPage">Items per page</param>
+        /// <param name="searchQuery">Optional search query to filter books</param>
         /// <returns>Tuple with book list and total count</returns>
-        Task<(List<BookSummary> Books, int TotalCount)> GetPaginatedBooksByAuthorAsync(string authorKey, int page, int itemsPerPage);
+        Task<(List<BookSummary> Books, int TotalCount)> GetPaginatedBooksByAuthorAsync(string authorKey, int page, int itemsPerPage, string? searchQuery = null);
     }
 }
