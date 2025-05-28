@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Threading.Tasks;
 
-namespace LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Pages.FavoritesBooks
+namespace LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Pages.FavoriteBooks
 {
-    public partial class FavoritesBooks : ComponentBase
+    public partial class FavoriteBooks : ComponentBase
     {
         [Inject]
         private IJSRuntime JSRuntime { get; set; } = default!;
