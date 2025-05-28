@@ -45,6 +45,15 @@ namespace LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Pages.BookDetai
             await ViewModel.LoadBookAsync();
         }
 
+        private async Task HandleAddToFavorites()
+        {
+            if (ViewModel.Book != null)
+            {
+                await ViewModel.ToggleFavoriteStatusAsync();
+                StateHasChanged();
+            }
+        }
+
         private async Task UpdatePageTitle()
         {
             if (ViewModel?.Book != null)

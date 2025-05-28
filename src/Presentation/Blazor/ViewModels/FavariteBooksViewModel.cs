@@ -2,18 +2,18 @@ using LaunchQ.TakeHomeProject.Domain.Models;
 using LaunchQ.TakeHomeProject.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using LaunchQ.TakeHomeProject.Presentation.ViewModels;
 using LaunchQ.TakeHomeProject.Presentation.ViewModels.Base;
 
 namespace LaunchQ.TakeHomeProject.Presentation.ViewModels
 {
-    public class BooksViewModel : BaseBooksViewModel
+    public class FavoreiteBooksViewModel : BaseBooksViewModel
     {
-        public BooksViewModel(IAuthorService authorService, IBookService bookService) : base(authorService, bookService)
-        {
+        
+        public FavoreiteBooksViewModel(IAuthorService authorService, IBookService bookService): base(authorService, bookService)
+        {        
         }
-
-        public async Task LoadAuthorAsync()
+        
+       public async Task LoadAuthorAsync()
         {
             try
             {
@@ -76,6 +76,5 @@ namespace LaunchQ.TakeHomeProject.Presentation.ViewModels
             CurrentPage = 1; // Resetar para a primeira página ao buscar
             await LoadPaginatedBooksAsync();
         }
-
     }
 }

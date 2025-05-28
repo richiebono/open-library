@@ -1,0 +1,78 @@
+@page "/FavoritesBooks"
+@using LaunchQ.TakeHomeProject.Domain.Models
+@using LaunchQ.TakeHomeProject.Domain.Interfaces.Services
+@using LaunchQ.TakeHomeProject.Presentation.ViewModels
+@using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.Pagination
+@using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.BookTable
+@using LaunchQ.TakeHomeProject.Presentation.Blazor.Components.Shared.SearchBox
+
+<div class="container mt-4">
+    <h1 class="mb-4">My Favorite Books</h1>
+    
+    @if (ViewModel.Loading)
+    {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else if (ViewModel.Error != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            @ViewModel.Error
+        </div>
+    }
+    else
+    {
+        
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0">My Favorite Books</h2>
+            </div>
+            <div class="card-body">                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <SearchBox 
+                            Placeholder="Search for books..." 
+                            SearchButtonText="Search"
+                            ClearButtonText="Clear"
+                            InitialSearchText="@ViewModel.SearchQuery"
+                            OnSearch="@HandleSearch" />
+                    </div>
+                </div>
+
+                @if (ViewModel.PagedBooks == null || !ViewModel.PagedBooks.Any())
+                {
+                    <div class="alert alert-info" role="alert">
+                        No favorite books found. Add some books to your favorites first!
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted mb-3">
+                        Found @ViewModel.TotalBooks favorite books
+                        @if (!string.IsNullOrWhiteSpace(ViewModel.SearchQuery))
+                        {
+                            <span> matching "@ViewModel.SearchQuery"</span>
+                        }
+                    </p>
+                    <BookTable Books="@ViewModel.PagedBooks" />
+                    
+                    <!-- Pagination Component -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <Pagination 
+                                Books="@ViewModel.PagedBooks"
+                                TotalBooks="@ViewModel.TotalBooks"
+                                CurrentPage="@ViewModel.CurrentPage"
+                                ItemsPerPage="@ViewModel.ItemsPerPage"
+                                OnPageChangedCallback="@OnPageChanged"
+                                OnItemsPerPageChangedCallback="@OnItemsPerPageChanged" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

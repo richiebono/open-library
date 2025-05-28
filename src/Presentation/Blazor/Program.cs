@@ -31,14 +31,17 @@ builder.Services.AddSingleton<IMapper<WorksResponseDto, List<BookSummary>>, Work
 // Register Ports with Adapter implementations
 builder.Services.AddScoped<IBookPort, OpenLibraryBookAdapter>();
 builder.Services.AddScoped<IAuthorPort, OpenLibraryAuthorAdapter>();
+builder.Services.AddScoped<ILocalStoragePort, BrowserLocalStorageAdapter>();
 
 // Register Services
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<ILocalStorageService, LocalStorageService>();
 
 // Register ViewModels as transient services
 builder.Services.AddTransient<BooksViewModel>();
 builder.Services.AddTransient<BookDetailViewModel>();
+builder.Services.AddTransient<FavoriteBooksViewModel>();
 
 // Register Assets class for dependency injection with required dependencies
 builder.Services.AddScoped<Assets>();

@@ -5,7 +5,13 @@
 
 <div class="container mt-4">
     <div class="mb-3">
-        <a href="/Books" class="btn btn-outline-secondary">&lt; Back to Books</a>
+        <div class="d-flex">
+            <a href="/Books" class="btn btn-outline-secondary me-2">&lt; Back to Books</a>
+            <button class="btn @(ViewModel.IsFavorite ? "btn-danger" : "btn-outline-primary")" type="button" @onclick="HandleAddToFavorites">
+                <i class="bi @(ViewModel.IsFavorite ? "bi-heart-fill" : "bi-heart")"></i> 
+                @(ViewModel.IsFavorite ? "Remove from Favorites" : "Add to Favorites")
+            </button>
+        </div>
     </div>
 
     @if (ViewModel.Loading)
